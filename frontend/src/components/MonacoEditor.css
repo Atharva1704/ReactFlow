@@ -1,0 +1,52 @@
+.prisma-editor-container {
+    width: 35vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #1e1e1e;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #252526;
+    border-bottom: 1px solid #3c3c3c;
+}
+
+.editor-header h1 {
+    color: #d4d4d4;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.save-button {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+}
+
+.save-button:hover {
+    background-color: #005a9c;
+}
+
+.editor-wrapper {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .editor-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}

@@ -1,0 +1,23 @@
+.model-node {
+    border: 1px solid #777;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    width: 500px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.model-node-header {
+    margin: 0 0 10px 0;
+    text-align: center;
+    background-color: #e0e0e0;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+.model-node-relations {
+    margin-top: 10px;
+    font-size: 0.8em;
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+}
