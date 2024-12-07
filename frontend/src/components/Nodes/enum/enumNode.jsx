@@ -1,7 +1,7 @@
 import React from 'react';
 import { Handle, Position } from '@xyflow/react';
 import Table from '../../Table/Table';
-import './EnumNode.css';
+import './enumNode.css';
 
 function enumNode({ data, isConnectable }) {
     // Prepare columns and data for the Table component
