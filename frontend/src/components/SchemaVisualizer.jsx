@@ -53,15 +53,16 @@ export default function SchemaVisualizer({ code }) {
                 position: { x: index * 500, y: 500 },
                 data: {
                     label: enumName,
-                    values: enumInfo.values
+                    values: enumInfo.vals
                 },
             }));
 
             // Combine nodes
             const newNodes = [...modelNodes, ...enumNodes];
 
-            // Create edges based on relations with custom labels
-            const newEdges = Object.values(parsedSchema.models).flatMap(model =>
+
+            // Create edges based on model-to-model relations
+            const modelEdges = Object.values(parsedSchema.models).flatMap(model =>
                 model.relations.map(relation => ({
                     id: `edge-${model.name}-${relation.relatedModel}`,
                     source: `model-${model.name}`,
@@ -75,6 +76,27 @@ export default function SchemaVisualizer({ code }) {
                     }
                 }))
             );
+
+            // Create edges between enums and their related models
+            const enumEdges = Object.entries(parsedSchema.enums).flatMap(([enumName, enumInfo]) =>
+                enumInfo.vals?.map(value => ({
+                    id: `edge-enum-${enumName}-model-${value}`,
+                    source: `enum-${enumName}`,
+                    target: `model-${value}`,
+                    label: `${enumName} → ${value}`, // Label showing the connection
+                    style: { stroke: '#00f', strokeWidth: 2 },
+                    labelStyle: {
+                        fill: '#343434',
+                        fontWeight: 'bold',
+                        fontSize: '10px'
+                    }
+                }))
+            );
+
+            console.log(parsedSchema);
+            // Combine all edges
+            const newEdges = [...modelEdges, ...enumEdges];
+            console.log(newEdges);
 
             setNodes(newNodes);
             setEdges(newEdges);

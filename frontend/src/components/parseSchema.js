@@ -76,7 +76,7 @@ export const parseSchema = (schemaText) => {
 
         schemaInfo.enums[enumName] = {
             name: enumName,
-            values: enumValues
+            vals: enumValues
         };
     });
 
