@@ -30,20 +30,17 @@ model Post {
 
 const MonacoEditor = () => {
     const [editorValue, setEditorValue] = useState(() => {
-        // Retrieve from localStorage or use default schema
         return localStorage.getItem("prisma_schema") || defaultPrismaSchema;
     });
 
-    // Handle changes in the editor
     const handleEditorChange = (value) => {
-        setEditorValue(value); // Update the state with the current editor value
+        setEditorValue(value);
     };
 
-    // Save the value to local storage when the button is clicked
     const handleSaveToLocalStorage = () => {
         localStorage.setItem("prisma_schema", editorValue);
         alert("Prisma Schema saved successfully!");
-        window.location.reload(); // Refresh the page
+        window.location.reload();
     };
 
     return (

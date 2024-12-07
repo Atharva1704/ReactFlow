@@ -19,11 +19,9 @@ const downloadImage = (dataUrl) => {
     a.click();
 };
 
-// Mostly a copy from the React Flow example: https://reactflow.dev/examples/misc/download-image
 const DownloadButton = () => {
     const { getNodes } = useReactFlow();
     const onClick = () => {
-        // Calculate a transform for the nodes so that all nodes are visible
         const nodesBounds = getRectOfNodes(getNodes());
         const { height: imageHeight, width: imageWidth } = nodesBounds;
         const transform = getViewportForBounds(

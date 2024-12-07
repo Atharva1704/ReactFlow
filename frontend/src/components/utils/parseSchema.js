@@ -1,8 +1,6 @@
 export const parseSchema = (schemaText) => {
-    // Remove comments
     const cleanSchemaText = schemaText.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
 
-    // Parsing results object
     const schemaInfo = {
         models: {},
         enums: {},
@@ -10,13 +8,11 @@ export const parseSchema = (schemaText) => {
         generators: []
     };
 
-    // Regex patterns
     const modelPattern = /model\s+(\w+)\s*{([\s\S]*?)}/g;
     const enumPattern = /enum\s+(\w+)\s*{([\s\S]*?)}/g;
     const datasourcePattern = /datasource\s+(\w+)\s*{([\s\S]*?)}/g;
     const generatorPattern = /generator\s+(\w+)\s*{([\s\S]*?)}/g;
 
-    // Parse Models
     const modelMatches = [...cleanSchemaText.matchAll(modelPattern)];
     modelMatches.forEach(match => {
         const modelName = match[1];
@@ -28,7 +24,6 @@ export const parseSchema = (schemaText) => {
             relations: []
         };
 
-        // Parse individual fields
         const fieldPattern = /(\w+)\s+(\w+)(\[\])?(\?)?(\s*@.*)?/g;
         const fieldMatches = [...modelContent.matchAll(fieldPattern)];
 
@@ -43,7 +38,6 @@ export const parseSchema = (schemaText) => {
                 constraints: []
             };
 
-            // Parse annotations for constraints
             if (annotations) {
                 const constraintMatches = annotations.match(/@\w+(\(.*?\))?/g);
                 if (constraintMatches) {
@@ -52,7 +46,6 @@ export const parseSchema = (schemaText) => {
                     });
                 }
 
-                // Check for relation
                 const relationMatch = annotations.match(/@relation\(fields:\s*\[(\w+)\],\s*references:\s*\[(\w+)\]\)/);
                 if (relationMatch) {
                     schemaInfo.models[modelName].relations.push({
@@ -68,7 +61,6 @@ export const parseSchema = (schemaText) => {
         });
     });
 
-    // Parse Enums
     const enumMatches = [...cleanSchemaText.matchAll(enumPattern)];
     enumMatches.forEach(match => {
         const enumName = match[1];
@@ -80,7 +72,6 @@ export const parseSchema = (schemaText) => {
         };
     });
 
-    // Parse Datasources
     const datasourceMatches = [...cleanSchemaText.matchAll(datasourcePattern)];
     datasourceMatches.forEach(match => {
         const datasourceName = match[1];
@@ -96,7 +87,6 @@ export const parseSchema = (schemaText) => {
         });
     });
 
-    // Parse Generators
     const generatorMatches = [...cleanSchemaText.matchAll(generatorPattern)];
     generatorMatches.forEach(match => {
         const generatorName = match[1];
@@ -112,41 +102,3 @@ export const parseSchema = (schemaText) => {
 
     return schemaInfo;
 };
-
-// Example usage
-// const exampleSchema = `
-//   datasource db {
-//     provider = "postgresql"
-//     url      = env("DATABASE_URL")
-//   }
-  
-//   generator client {
-//     provider = "prisma-client-js"
-//   }
-  
-//   enum Role {
-//     USER
-//     ADMIN
-//   }
-  
-//   model User {
-//     id        Int      @id @default(autoincrement())
-//     email     String   @unique
-//     name      String?
-//     role      Role     @default(USER)
-//     posts     Post[]
-//     createdAt DateTime @default(now())
-//   }
-  
-//   model Post {
-//     id        Int      @id @default(autoincrement())
-//     title     String
-//     content   String?
-//     published Boolean  @default(false)
-//     author    User     @relation(fields: [authorId], references: [id])
-//     authorId  Int
-//   }
-//   `;
-
-// Demonstrate the parsing
-// console.log(JSON.stringify(parsePrismaSchema(exampleSchema), null, 2));
